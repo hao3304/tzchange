@@ -1,0 +1,84 @@
+<div class="panel page-merchant">
+    <div class="panel-heading">
+    </div>
+    <div class="panel-body">
+        <div class="input-group col-md-8 col-md-offset-2" style="margin-bottom: 10px">
+            <span class="input-group-addon">手机号码</span>
+            <input class="form-control" placeholder="手机号码" v-model="query.phone">
+            <span class="input-group-addon">工单状态</span>
+            <select class="form-control"  v-model="query.status" options="base.changeStatus">
+            </select>
+            <span class="input-group-addon">工单类型</span>
+            <select class="form-control"  v-model="query.datatype" options="base.datatype">
+                <option value="-1">全部</option>
+            </select>
+            <span class="input-group-btn">
+                 <button class="btn  btn-info" type="button" v-on="click:onReset" >
+                     <span class="icon icon-refresh"></span>
+                     重置</button>
+              <button class="btn btn-primary" type="button" v-on="click:onQuery">
+                  <span class="icon icon-search"></span>
+                  查询</button>
+            </span>
+        </div>
+
+        <table class="table datatable">
+            <thead>
+            <tr>
+                <th>上报用户</th>
+                <th>上报单位</th>
+                <th>上报手机</th>
+                <th>上报地点</th>
+                <th>变化数据类型</th>
+                <th>发现类型</th>
+                <th>变化状态</th>
+                <th>变化内容</th>
+                <th>现场查看</th>
+                <th data-width="200px">上报时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-repeat="l in list">
+                <td>{{l.Phone_User}}</td>
+                <td>{{l.Unit}}</td>
+                <td>{{l.Phone}}</td>
+                <td>{{l.Place}}</td>
+                <td>{{l.Base_Name}}</td>
+                <td>{{l.Change_Type}}</td>
+                <td>{{l.Status | status}}</td>
+                <td>{{l.Content}}</td>
+                <td><a href="javascript:;" onclick="window.app._onLookImage({{l.ID}})" >现场照片</a></td>
+                <td>{{l.Upload_Time}}</td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+
+    <div class="modal fade" id="merchantModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title">商户入驻</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">反馈意见</label>
+                            <div class="col-md-8">
+                                <textarea rows="2" class="form-control" placeholder="请输入反馈意见"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

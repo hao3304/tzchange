@@ -1,0 +1,135 @@
+@height:83px;
+.nav-header{
+    height: @height;
+    background: url(/static/images/bg.png) !important;
+    margin-bottom: 0 !important;
+    position: fixed !important;
+    width: 100%;
+
+
+    #nav-nar {
+        float: left !important;
+        height: @height;
+
+        .caret{
+            border-bottom-color: #fff;
+            position: absolute;
+            right: 5px;
+            top:37px;
+            border-top: 5px solid #fff;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+        }
+        li.menu-li{
+            margin-left: 25px;
+            cursor: pointer;
+            height: @height;
+            a.menu1{
+                height: 81px;
+                color: #fff;
+                padding-left: 15px;
+                padding-right: 15px;
+                padding-top: 10px;
+                padding-bottom: 0;
+                display: inline-block;
+                .menu-icon{
+                    text-align: center;
+                    span{
+                        width: 42px;
+                        height: 42px;
+                        display: inline-block;
+                        background-size: contain;
+                    }
+                    .home{
+                        background-image: url("/static/images/order.png");
+                    }
+                    .merchant{
+                        background-image: url("/static/images/shrz.png");
+                    }
+                    .stat{
+                        background-image: url("/static/images/bhtj.png");
+                    }
+                    .contrast{
+                        background-image: url("/static/images/bhdb.png");
+                    }
+                    .history{
+                        background-image: url("/static/images/lscx.png");
+                    }
+                    .config{
+                        background-image: url("/static/images/xtgl.png");
+                    }
+                }
+
+            }
+            a.menu1:hover{
+                background-color:rgba(255, 255, 255,0.3);
+                .home{
+                    background-image: url("/static/images/w1.png");
+                }
+                .merchant{
+                    background-image: url("/static/images/w2.png");
+                }
+                .stat{
+                    background-image: url("/static/images/w3.png");
+                }
+                .contrast{
+                    background-image: url("/static/images/w4.png");
+                }
+                .history{
+                    background-image: url("/static/images/w5.png");
+                }
+                .config{
+                    background-image: url("/static/images/w6.png");
+                }
+            }
+
+        }
+        .active a.menu1{
+            background-color:rgba(255, 255, 255,0.3);
+
+            .home{
+                background-image: url("/static/images/w1.png") !important;
+            }
+            .merchant{
+                background-image: url("/static/images/w2.png") !important;
+            }
+            .stat{
+                background-image: url("/static/images/w3.png") !important;
+            }
+            .contrast{
+                background-image: url("/static/images/w4.png") !important;
+            }
+            .history{
+                background-image: url("/static/images/w5.png") !important;
+            }
+            .config{
+                background-image: url("/static/images/w6.png") !important;
+            }
+        }
+
+        .dropdown-menu a.menu1{
+            color: rgb(38,38,38);
+        }
+
+        .dropdown-menu .active a.menu1{
+            color: #fff;
+        }
+
+        .active>a.parent{
+            background-image:linear-gradient(to bottom,#fff 0,#fff 100%) !important;
+        }
+
+    }
+
+    .navbar-user{
+        float: right;
+        line-height: 80px;
+        margin-right: 20px;
+        color: #fff !important;
+    }
+
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+    background-color:rgba(255, 255, 255,0.3);
+}

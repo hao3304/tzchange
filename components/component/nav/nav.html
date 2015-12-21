@@ -1,0 +1,38 @@
+<nav class="navbar navbar-default nav-header">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#home">
+                    <img src="/static/images/logo-new.png" class="title">
+                </a>
+            </div>
+            <ul id="nav-nar" class="nav navbar-nav navbar-right">
+                <li v-repeat="f in func" v-class="active:f.active" class="menu-li">
+                    <a v-if="f.child.length==0" href="#{{f.key}}" class="menu1">
+                        <div class="menu-icon">
+                            <span class="{{f.key}}"></span>
+                        </div>
+                        {{f.name}}
+                    </a>
+                    <a v-if="f.child.length>0" href="javascript:;" data-toggle="dropdown" class="menu1 dropdown-toggle">
+                        <div class="menu-icon">
+                            <span class="{{f.key}}"></span>
+                        </div>
+                        {{f.name}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li v-repeat="c in f.child" v-class="active:c.active">
+                            <a href="#{{c.key}}">{{c.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="navbar-user">
+                <span><img src="/static/images/r.png"></span>
+                {{username}}  <a v-on="click:layout" href="javascript:;" class="text-danger"> ×¢Ïú</a>
+            </div>
+        </div>
+    </div>
+</nav>

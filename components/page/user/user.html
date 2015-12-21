@@ -1,0 +1,99 @@
+<div class="page-user">
+    <div class="panel">
+        <div class="panel-heading">
+            <button class="btn btn-primary" v-on="click:onAddUser">
+                <span class="icon icon-plus"></span>
+                添加
+            </button>
+        </div>
+        <div class="panel-body">
+            <table class="table datatable" >
+                <thead>
+                <tr>
+                    <th class="sort-disabled">序号</th>
+                    <th>名称</th>
+                    <th>单位</th>
+                    <th>职位</th>
+                    <th>联系电话</th>
+                    <th>用户名</th>
+                    <th class="sort-disabled">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-repeat="l in list">
+                    <td>{{$index+1}}</td>
+                    <td>{{l.Full_Name}}</td>
+                    <td>{{l.Unit}}</td>
+                    <td>{{l.Duty}}</td>
+                    <td>{{l.Phone}}</td>
+                    <td>{{l.User_Name}}</td>
+                    <td>
+                        <span  class="icon icon-trash " style="cursor: pointer"  v-on="click:onDelUser(l.ID)"> </span>
+                        <span  v-on="click:onEditUser(l)" style="cursor: pointer"  class="icon icon-edit"> </span>
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="userModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title">{{do}}用户</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">用户名</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" v-model="user.username" placeholder="用户名" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">密码</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" v-model="user.password" placeholder="密码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">姓名</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" v-model="user.fullname" placeholder="姓名"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">单位</label>
+                            <div class="col-md-8">
+                                <select class="form-control" options="base.units" v-model="user.yunit">
+                                <option value="-1">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">职位</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" v-model="user.duty" placeholder="职位"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">手机号码</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" v-model="user.phone" placeholder="手机号码"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" v-on="click:onSubmit">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

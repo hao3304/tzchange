@@ -1,0 +1,60 @@
+.page-merchant {
+  height: 100%;
+  /*  վ���ֲ� ��ɫ  */
+}
+.page-merchant .tab-btn {
+  position: absolute;
+  z-index: 1000;
+  top: 90px;
+  right: 85px;
+}
+.page-merchant #merchant-map {
+  height: 100%;
+}
+.page-merchant .tabs {
+  height: 100%;
+}
+.page-merchant .site-box {
+  background-color: #fff;
+  min-width: 120px;
+  position: relative;
+  float: left;
+  border: 1px solid #999999;
+  border-radius: 5px;
+}
+.page-merchant .site-box table tr:nth-child(odd) {
+  background-color: #fefefe;
+}
+.page-merchant .site-box h2 {
+  font-size: 14px;
+  color: #fff;
+  padding: 4px 8px 4px 8px;
+  margin: 0;
+}
+.page-merchant .site-box h2.blue {
+  background-color: #4586d8;
+}
+.page-merchant .site-box h2.red {
+  background-color: #c80001;
+}
+.page-merchant .site-content {
+  padding: 5px;
+}
+.page-merchant .site-content tr td {
+  padding: 3px 0;
+}
+.page-merchant .site-content .text01 {
+  color: #443589;
+  text-align: right;
+  white-space: nowrap;
+  min-width: 50px;
+}
+.page-merchant .bubble .leaflet-popup-content {
+  margin: 0;
+}
+.page-merchant .bubble .leaflet-popup-content-wrapper {
+  box-shadow: none;
+}
+.page-merchant .bubble .leaflet-popup-tip-container {
+  display: none;
+}

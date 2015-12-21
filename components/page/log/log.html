@@ -1,0 +1,33 @@
+<div class="page-log">
+    <div class="panel">
+        <div class="panel-heading">
+            操作日志
+        </div>
+        <div class="panel-body">
+            <table class="table datatable">
+                <thead>
+                <tr>
+                    <th class="sort-disabled">序号</th>
+                    <th>功能模块</th>
+                    <th>操作内容</th>
+                    <th>操作时间</th>
+                    <th>操作人员</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-repeat="l in list">
+                    <td>{{$index+1}}</td>
+                    <td>{{l.Module_Name}}</td>
+                    <td>{{l.Content}}</td>
+                    <td>{{l.LogTime}}</td>
+                    <td>{{l.User}}</td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,68 @@
+.page-home {
+  height: 100%;
+  /*  վ���ֲ� ��ɫ  */
+}
+.page-home .tab-btn {
+  position: absolute;
+  z-index: 1000;
+  top: 90px;
+  right: 85px;
+}
+.page-home #map {
+  height: 100%;
+}
+.page-home .tabs {
+  height: 100%;
+}
+.page-home .site-box {
+  background-color: #fff;
+  min-width: 120px;
+  position: relative;
+  float: left;
+  border: 1px solid #999999;
+  border-radius: 5px;
+}
+.page-home .site-box table tr:nth-child(odd) {
+  background-color: #fefefe;
+}
+.page-home .site-box h2 {
+  font-size: 14px;
+  color: #fff;
+  padding: 4px 8px 4px 8px;
+  margin: 0;
+}
+.page-home .site-box h2.blue {
+  background-color: #4586d8;
+}
+.page-home .site-box h2.red {
+  background-color: #c80001;
+}
+.page-home .site-content {
+  padding: 5px;
+}
+.page-home .site-content tr td {
+  padding: 3px 0;
+}
+.page-home .site-content .text01 {
+  color: #443589;
+  text-align: right;
+  white-space: nowrap;
+  min-width: 50px;
+}
+.page-home .bubble .leaflet-popup-content {
+  margin: 0;
+}
+.page-home .bubble .leaflet-popup-content-wrapper {
+  box-shadow: none;
+}
+.page-home .bubble .leaflet-popup-tip-container {
+  display: none;
+}
+.triangle {
+  position: absolute;
+  background: url(/static/images/triangle.png) no-repeat;
+  width: 29px;
+  height: 16px;
+  bottom: -15px;
+  left: 50%;
+}

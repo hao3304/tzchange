@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="leaflet/leaflet-src.js"></script>
+    <link rel="stylesheet" href="leaflet/leaflet.css"/>
+    <link rel="stylesheet" href="/static/css/zui.css"/>
+    <link rel="stylesheet" href="map.css"/>
+    <script src="jquery/jquery.js"></script>
+</head>
+<body>
+<div id="map" style="height: 400px"></div>
+</body>
+</html>
+<script>
+    $(function () {
+        var map = this.map = new L.map("map",{
+            minZoom: 1,
+            maxZoom: 18,
+            center: [28.658128746033, 121.41615288591],
+            zoom: 15
+        });
+
+        var slmap = new L.TileLayer("http://tmap.tzsjs.gov.cn/services/wmts/chinaemap?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=chinaemap&STYLE=default&TILEMATRIXSET=esritilematirx&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
+                {
+                    maxZoom: 18,
+                    minZoom: 1,
+                    subdomains:['0','1','2','3','4','5','6','7']
+                });
+
+        var yxmap = new L.TileLayer("http://tmap.tzsjs.gov.cn/services/wmts/chinaimgmap?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=chinaimgmap&STYLE=default&TILEMATRIXSET=esritilematirx&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
+                {
+                    maxZoom: 18,
+                    minZoom: 1,
+                    subdomains:['0','1','2','3','4','5','6','7']
+                });
+
+        var sl = new L.layerGroup([slmap]).addTo(map),
+                yx = new L.layerGroup([yxmap]);
+
+        var baseLayers = {
+            "矢量图": sl,
+            "影像图": yx
+        };
+        L.control.layers(baseLayers, {}).addTo(map);
+    })
+</script>

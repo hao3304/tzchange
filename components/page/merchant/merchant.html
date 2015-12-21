@@ -1,0 +1,106 @@
+<div class=" page-merchant">
+    <div class="tab-btn">
+        <div class="btn-group">
+            <button v-repeat="t in tabs" type="button" class="btn " v-class="active:targetTab==t.key"  v-on="click:onTabChange(t.key)">
+                <span class="icon" v-class="t.className"></span>
+                {{t.name}}</button>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div id="merchant-map" v-show="targetTab == 'map'"></div>
+        <div id="list" v-show="targetTab == 'list'">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h5>商户入驻列表</h5>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group col-md-10 col-md-offset-1" style="margin-bottom: 10px">
+                        <span class="input-group-addon">商户名称</span>
+                        <input class="form-control" placeholder="商户名称">
+                        <span class="input-group-addon">手机号码</span>
+                        <input class="form-control" placeholder="手机号码">
+                        <span class="input-group-addon">工单状态</span>
+                        <select class="form-control"  v-model="query.status" options="base.changeStatus">
+                        </select>
+                        <span class="input-group-addon">行业类型</span>
+                        <select class="form-control"  v-model="query.datatype" options="base.datatype">
+                            <option value="-1">全部</option>
+                        </select>
+            <span class="input-group-btn">
+                 <button class="btn  btn-info" type="button" v-on="click:onReset" >
+                     <span class="icon icon-refresh"></span>
+                     重置</button>
+              <button class="btn btn-primary" type="button" >
+                  <span class="icon icon-search"></span>
+                  查询</button>
+            </span>
+                    </div>
+
+                    <table class="table datatable">
+                        <thead>
+                        <tr>
+                            <th>上报用户</th>
+                            <th>商户名称</th>
+                            <th>手机号码</th>
+                            <th>行业类型</th>
+                            <th>详细地点</th>
+                            <th>门脸照片</th>
+                            <th>营业执照</th>
+                            <th>商户说明</th>
+                            <th>上报时间</th>
+                            <th>入驻状态</th>
+                            <th class="sort-disabled">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-repeat="l in list">
+                            <td>{{l.Phone_User}}</td>
+                            <td>{{l.Business_Name}}</td>
+                            <td>{{l.Phone}}</td>
+                            <td>{{l.Base_Name}}</td>
+                            <td>{{l.Place}} <a v-show="l.Coords" href="javascript:;" v-on="click:panTo(l.Coords)"><span  class="icon icon-map-marker"></span></a></td>
+                            <td>照片</td>
+                            <td>照片</td>
+                            <td>{{l.Content}}</td>
+                            <td>{{l.Upload_Time}}</td>
+                            <td>{{l.Status | status}}</td>
+                            <td>
+                                <a v-if="l.Status == 0" href="javascript:;" v-on="click:onCheck(l.ID)" class="text-primary">审核 </a>
+                                <a v-if="l.Status == 1" href="javascript:;" onclick="window.app._onFeed({{l.ID}},this)" class="text-important">反馈 </a>
+                                <a  href="javascript:;" v-on="click:onDel(l.ID)" class="text-warning">删除 </a>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="merchantModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                        <h4 class="modal-title">商户入驻</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">反馈意见</label>
+                                <div class="col-md-8">
+                                    <textarea rows="2" class="form-control" placeholder="请输入反馈意见"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

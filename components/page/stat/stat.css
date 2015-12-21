@@ -1,0 +1,8 @@
+.page-stat .menu-panel {
+  border-radius: 0;
+  border-right: 0;
+}
+.page-stat .menu-panel .menu li a {
+  border-radius: 0 !important;
+  border-right: 0 !important;
+}

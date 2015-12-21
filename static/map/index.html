@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="leaflet/leaflet.js"></script>
+    <script src="leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="leaflet/leaflet.css"/>
+    <link rel="stylesheet" href="/static/css/zui.css"/>
+    <link rel="stylesheet" href="map.css"/>
+    <script src="jquery/jquery.js"></script>
+    <script src="/static/js/zui.js"></script>
+    <script src="service.js"></script>
+    <script src="vue.js"></script>
+    <style>
+        body,html,#map{
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body id="map_container">
+<div class="tab-btn">
+    <div class="btn-group">
+        <button v-repeat="t in tabs" type="button" class="btn " v-class="active:targetTab==t.key"  v-on="click:onTabChange(t.key)">
+            <span class="icon" v-class="t.className"></span>
+            {{t.name}}</button>
+    </div>
+</div>
+<div class="tabs">
+    <div id="map" v-show="targetTab == 'map'"></div>
+    <div id="list" v-show="targetTab == 'list'">
+
+        <div class="panel">
+            <div class="panel-heading">
+                <button class="btn btn-info">
+                    <span class="icon icon-cubes"></span>
+                    合并
+                </button>
+                <button class="btn btn-info ">
+                    <span class="icon icon-pie-chart"></span>
+                    对比
+                </button>
+
+            </div>
+            <div class="panel-body">
+                <div class="input-group col-md-6 col-md-offset-3" style="margin-bottom: 10px">
+                    <span class="input-group-addon">上报单位</span>
+                    <select class="form-control"  v-model="query.yunit" options="units">
+                        <option value="0">全部</option>
+                    </select>
+                    <span class="input-group-addon">工单状态</span>
+                    <select class="form-control" options="changeStatus" v-model="query.status">
+                    </select>
+            <span class="input-group-btn">
+                 <button class="btn  btn-info" type="button" v-on="click:onReset">
+                     <span class="icon icon-refresh"></span>
+                     重置</button>
+              <button class="btn btn-primary" type="button" v-on="click:onQuery">
+                  <span class="icon icon-search"></span>
+                  查询</button>
+            </span>
+                </div>
+
+                <table class="table datatable">
+                    <thead>
+                    <tr>
+                        <th>上报用户</th>
+                        <th>上报单位</th>
+                        <th>上报地点</th>
+                        <th>变化数据类型</th>
+                        <th>发现类型</th>
+                        <th>变化状态</th>
+                        <th>变化内容</th>
+                        <th>现场查看</th>
+                        <th data-width="200px">上报时间</th>
+                        <th class="sort-disabled">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-repeat="l in list">
+                        <td>{{l.Phone_User}}</td>
+                        <td>{{l.Unit}}</td>
+                        <td>{{l.Place}}</td>
+                        <td>{{l.Base_Name}}</td>
+                        <td>{{l.Change_Type}}</td>
+                        <td>{{l.Status | status}}</td>
+                        <td>{{l.Content}}</td>
+                        <td>{{l.PrevImgs}}</td>
+                        <td>{{l.Upload_Time}}</td>
+                        <td>
+                            <a v-if="l.Status == 0" href="javascript:;" onclick="onCheck({{l.ID}})" class="text-primary">审核 </a>
+                            <a v-if="l.Status == 1" href="javascript:;" onclick="onFeed({{l.ID}})" class="text-important">反馈 </a>
+                            <a  href="javascript:;"  class="text-info">对比 </a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="feedModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">反馈</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">反馈意见</label>
+                        <div class="col-md-8">
+                            <textarea rows="2" class="form-control" placeholder="请输入反馈意见"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script>
+
+    var app = new Vue({
+        el:"#map_container",
+        data:{
+            tabs:[
+                {name:"地图",className:"icon-map-marker",key:"map"},
+                {name:"列表",className:"icon-list",key:"list"}
+            ],
+            query:{
+                yunit:0,
+                phone:"",
+                status:"",
+                keywords:""
+            },
+            units:[],
+            list:[],
+            changeStatus:[
+                {text:"全部",value:""},
+                {text:"未审核",value:0},
+                {text:"审核通过",value:1}
+            ],
+            targetTab:"map"
+        },
+        methods:{
+            renderMap: function () {
+                var map = this.map = new L.map("map",{
+                    minZoom: 1,
+                    maxZoom: 18,
+                    center: [28.658128746033, 121.41615288591],
+                    zoom: 15
+                });
+
+//                var slmap = new L.TileLayer("http://tmap.tzsjs.gov.cn/services/wmts/chinaemap?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=chinaemap&STYLE=default&TILEMATRIXSET=esritilematirx&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
+//                        {
+//                            maxZoom: 18,
+//                            minZoom: 1,
+//                            subdomains:['0','1','2','3','4','5','6','7']
+//                        });
+//
+//                var yxmap = new L.TileLayer("http://tmap.tzsjs.gov.cn/services/wmts/chinaimgmap?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=chinaimgmap&STYLE=default&TILEMATRIXSET=esritilematirx&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
+//                        {
+//                            maxZoom: 18,
+//                            minZoom: 1,
+//                            subdomains:['0','1','2','3','4','5','6','7']
+//                        });
+
+                var slmap = new L.tileLayer.chinaProvider("TianDiTu.Normal.Map",{
+                    maxZoom: 18,
+                    minZoom: 1
+                });
+
+                var slmapa = new L.tileLayer.chinaProvider("TianDiTu.Normal.Annotion",{
+                    maxZoom: 18,
+                    minZoom: 1
+                });
+
+                var yxmap = new L.tileLayer.chinaProvider("TianDiTu.Satellite.Map",{
+                    maxZoom: 18,
+                    minZoom: 1
+                });
+                var yxmapa = new L.tileLayer.chinaProvider("TianDiTu.Satellite.Annotion",{
+                    maxZoom: 18,
+                    minZoom: 1
+                });
+
+                var sl = new L.layerGroup([slmap,slmapa]).addTo(map),
+                        yx = new L.layerGroup([yxmap,yxmapa]);
+
+                var baseLayers = {
+                    "矢量图": sl,
+                    "影像图": yx
+                };
+                L.control.layers(baseLayers, {}).addTo(map);
+            },
+            initData: function () {
+                var self = this;
+                getChangeUnits("",function(rep){
+                    var lst = [];
+                    for(var i=0;i<rep.length;i++){
+                        lst.push({text:rep[i].Unit_Name,value:rep[i].ID});
+                    }
+                    self.units =lst;
+                })
+            },
+            onTabChange: function (k) {
+                this.targetTab = k;
+            },
+            renderTable: function () {
+                $('table.datatable').datatable({checkable: true,sortable:true});
+                this.loadTableList();
+            },
+            loadTableList: function () {
+                var self = this;
+                getChanges({
+                    yunit:this.query.yunit,
+                    phone:"",
+                    status:this.query.status,
+                    keywords:""
+                }, function (rep) {
+                    self.list = rep;
+                    Vue.nextTick(function () {
+                        $('table.datatable').datatable('load');
+                    })
+                })
+            },
+            showFeedModal: function () {
+                $("#feedModal").modal("show","fit");
+            },
+            hideFeedModal: function () {
+                $("feedModal").modal("hide");
+            },
+            onQuery: function () {
+                this.loadTableList();
+            },
+            onReset: function () {
+                this.query.yunit= 0;
+                this.query.phone="";
+                this.query.status="";
+                this.query.keywords="";
+                this.loadTableList();
+            },
+            onCheck: function (id) {
+                var r = confirm("确定审核通过该记录？");
+                if(r){
+                    var self = this;
+                    changefeedback({id:id,status:1,content:"",user:""},function(rep){
+                        self.loadTableList();
+                    })
+                }
+            },
+            onFeed: function () {
+                this.showFeedModal();
+            }
+        },
+        ready: function () {
+            this.renderMap();
+            this.renderTable();
+            this.initData();
+        }
+    })
+
+
+    Vue.filter("status", function (type) {
+        switch (type){
+            case 0:{
+                return "未审核";
+            }break;
+            case 1:{
+                return "审核通过";
+            }break;
+        }
+    });
+
+    function onFeed(id){
+        app.onFeed(id);
+    }
+
+    function onCheck(id){
+        app.onFeed(id);
+    }
+
+
+</script>

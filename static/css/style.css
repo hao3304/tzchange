@@ -1,0 +1,12 @@
+html,
+body,
+#app {
+  height: 100%;
+  overflow: hidden;
+}
+html .admin,
+body .admin,
+#app .admin {
+  height: 100%;
+  padding-top: 80px;
+}

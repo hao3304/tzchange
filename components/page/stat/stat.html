@@ -1,0 +1,81 @@
+<div class="page-stat">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 col-md-2" style="padding: 0">
+                <div class="panel menu-panel" >
+                    <div class="panel-heading">
+                        统计菜单
+                    </div>
+                    <div class="panel-body" style="padding: 0">
+                        <nav class="menu" data-toggle="menu" >
+                            <ul class="nav nav-primary">
+                                <li v-class="active:view == 'year'"><a  v-on="click:onTabChange('year')" href="javascript:;"><i class="icon-dashboard"></i>变化发现年度统计</a></li>
+                                <li v-class="active:view == 'merchant'"><a href="javascript:;" v-on="click:onTabChange('merchant')"><i class="icon-sort-by-attributes"></i>商户入驻年度统计</a></li>
+                                <li v-class="active:view == 'unit'"><a  v-on="click:onTabChange('unit')" href="javascript:;"><i class="icon-group"></i>单位变化发现统计</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-10"  style="padding: 0">
+                <div class="panel">
+                    <div class="panel-heading header" >
+                        单位显示
+                    </div>
+                    <div class="panel-body">
+                        <div class="container-fluid">
+                            <div v-show="view=='year'" class="row">
+                                <div class="col-md-12 col-lg-12">
+                                    <div class="panel ">
+                                        <div class="panel-body">
+                                            <div class="year-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-show="view=='merchant'" class="row">
+                                <div class="col-md-12 col-lg-12">
+                                    <div class="panel ">
+                                        <div class="panel-body">
+                                            <div class="merchant-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-show="view=='unit'" class="row">
+                                <div class="col-md-4 col-lg-4" v-repeat="base.units">
+                                    <div class="panel ">
+                                        <div class="panel-body">
+                                            <div class="col-md-6">
+                                                <div class="unit-chart-{{$index}}">{{$index}}</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <table class="table" style="margin-top: 40px;">
+                                                    <tr>
+                                                        <td>未审核</td><td class="wsh"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>未通过</td><td class="wtg"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>已更新</td><td class="ygx"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>已通过</td><td class="ytg"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
